@@ -2,6 +2,18 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Livewire\Places;
+use App\Http\Livewire\Districts;
+use App\Http\Livewire\Regencies;
+use App\Http\Livewire\Provinces;
+use App\Http\Livewire\Kabupaten\KabupatenIndex;
+
+
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\InfoController;
+use App\Http\Livewire\Data\DataIndex;
+use App\Http\Livewire\Desa\DesaIndex;
+use App\Http\Livewire\Kecamatan\KecamatanIndex;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -15,13 +27,27 @@ use App\Http\Livewire\Places;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('datang');
 });
 
-Route::group(['middleware'=> ['auth:sanctum', 'verified']],function() {
+Route::get('/index',[InfoController::class,'index'])->name('index')->middleware(['auth:sanctum','verified']);
+Route::get('/first',[HomeController::class,'first'])->name('first')->middleware(['auth:sanctum','verified']);
+
+
+Route::group(['middleware'=> ['auth:sanctum', 'verified', 'accessrole',]],function() {
     Route::get('/dashboard',function(){
         return view('dashboard');
     })->name('dashboard');
 
-    Route::get('place', Places::class)->name('place');
+    Route::get('data', Places::class)->name('data');
+    
+
+    // Route::get('kabupaten', Regencies::class)->name('kabupaten');
+    Route::get('provinsi', Provinces::class)->name('provinsi');
+    Route::get('data_kabupaten', KabupatenIndex::class)->name('data_kabupaten');
+    Route::get('kecamatan', KecamatanIndex::class)->name('kecamatan');
+    Route::get('desa', DesaIndex::class)->name('desa');
+    Route::get('datacovid', DataIndex::class)->name('datacovid');
+    
+    
 });

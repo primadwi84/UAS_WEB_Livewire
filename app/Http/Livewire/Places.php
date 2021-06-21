@@ -7,14 +7,23 @@ use Livewire\Component;
 
 class Places extends Component
 {
-    public $places, $Desa, $Kabupaten, $Provinsi, $Sehat, $Sakit, $Dirawat, $Sembuh, $Zona, $place_id;
+    public $Desa, $Kecamatan, $Kabupaten, $Provinsi, $Sehat, $Sakit, $Dirawat, $Sembuh, $Zona, $place_id;
+    // public $places
     public $isModal;
 
     public function render()
     {
-        $this->places = Place::orderBy('created_at','DESC')->get();
-        return view('livewire.places');
+        return view('livewire.places', [
+            'places'=>Place::orderBy('created_at','DESC')->get(),
+            'title'=>'Data Desa Covid-19 Indonesia'
+            ])
+            ->layout('layouts.aple');
+
+        // $this->places = Place::orderBy('created_at','DESC')->get();
+        // return view('livewire.places')
+        // ->layout('layouts.aple');
     }
+    
 
     public function create()
     {
@@ -25,12 +34,9 @@ class Places extends Component
     public function resetFields()
     {
         $this->Desa='';
+        $this->Kecamatan='';
         $this->Kabupaten='';
         $this->Provinsi='';
-        $this->Sehat='';
-        $this->Sakit='';
-        $this->Dirawat='';
-        $this->Sembuh='';
         $this->Zona='';
         $this->place_id='';
     }
@@ -49,12 +55,9 @@ class Places extends Component
     {
         $this->validate([
             'Desa' => 'required|string',
+            'Kecamatan' => 'required|string',
             'Kabupaten' => 'required|string',
             'Provinsi' => 'required|string',
-            'Sehat' => 'required|integer',
-            'Sakit' => 'required|integer',
-            'Dirawat' => 'required|integer',
-            'Sembuh' => 'required|integer',
             'Zona' => 'required|string'
         ]);
 
@@ -62,18 +65,15 @@ class Places extends Component
             ['id' => $this->place_id], 
             [
              'Desa'=>$this->Desa,
+             'Kecamatan'=>$this->Kecamatan,
              'Kabupaten'=>$this->Kabupaten,
              'Provinsi'=>$this->Provinsi,
-             'Sehat'=>$this->Sehat,
-             'Sakit'=> $this->Sakit,
-             'Dirawat'=> $this->Dirawat,
-             'Sembuh'=> $this->Sembuh,
              'Zona'=> $this->Zona,
 
             ]
             );
 
-            session()->flash('message', $this->place_id ? $this-> Desa .' Ditambahkan':$this->Desa . 'Dirubah');
+            session()->flash('message', $this->place_id ? $this-> Desa .' Dirubah':$this->Desa . ' Ditambahkan');
             $this -> resetFields();
             $this -> closeModal();
     }
@@ -83,12 +83,9 @@ class Places extends Component
         $place = Place::find($id);
         $this->place_id = $id;
         $this->Desa =$place->Desa;
+        $this->Kecamatan =$place->Desa;
         $this->Kabupaten =$place->Kabupaten;
         $this->Provinsi =$place->Provinsi;
-        $this->Sehat =$place->Sehat;
-        $this->Sakit=$place->Sakit;
-        $this->Dirawat=$place->Dirawat;
-        $this->Sembuh=$place->Sembuh;
         $this->Zona=$place->Zona;
 
         $this->openModal();
@@ -103,3 +100,4 @@ class Places extends Component
 
     }
 }
+

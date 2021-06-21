@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePlacesTable extends Migration
+class CreateKabupatensTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,9 @@ class CreatePlacesTable extends Migration
      */
     public function up()
     {
-        Schema::create('places', function (Blueprint $table) {
+        Schema::create('kabupatens', function (Blueprint $table) {
             $table->id();
-            $table->string('Desa');
-            $table->string('Kecamatan');
-            $table->string('Kabupaten');
-            $table->string('Provinsi');
-            $table->string('Zona');
+            $table->string('nama_kabupaten');
             $table->timestamps();
         });
     }
@@ -31,6 +27,6 @@ class CreatePlacesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('places');
+        Schema::dropIfExists('kabupatens');
     }
 }

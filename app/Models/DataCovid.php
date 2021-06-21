@@ -5,8 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Place extends Model
+class DataCovid extends Model
 {
     use HasFactory;
-    protected $fillable =['Desa', 'Kecamatan','Kabupaten','Provinsi','Sehat','Sakit','Dirawat','Sembuh','Zona'];
+    protected $fillable =['sehat', 'sakit', 'meninggal', 'status', 'kabupaten', 'kecamatan', 'desa'];
 }
